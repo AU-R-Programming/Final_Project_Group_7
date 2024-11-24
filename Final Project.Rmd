@@ -1,0 +1,161 @@
+---
+title: "Final Project_SHAKIBA"
+output: html_notebook
+---
+
+## Set Up Your R Package:
+
+# Install necessary tools
+```{r}
+install.packages(c("devtools", "roxygen2", "usethis"))
+```
+
+# Create a new package structure
+```{r}
+usethis::create_package("C:/Users/szk0263/Documents/2GitHub")
+```
+
+# Set up version control
+```{r}
+usethis::use_git()
+usethis::use_github(organization = "AU-R-Programming")
+```
+
+## Implement the Core Functionality: 
+
+# Numerical Optimization for Logistic Regression
+```{r}
+#' Logistic Regression using Numerical Optimization
+#'
+#' @param X A matrix of predictors
+#' @param y A binary response vector
+#' @return Estimated coefficients vector (beta)
+#' @export
+logistic_regression <- function(X, y) {
+  # Initialize beta with least squares formula
+  beta_init <- solve(t(X) %*% X) %*% t(X) %*% y
+  
+  # Define the negative log-likelihood
+  neg_log_likelihood <- function(beta) {
+    p <- 1 / (1 + exp(-X %*% beta))
+    -sum(y * log(p) + (1 - y) * log(1 - p))
+  }
+  
+  # Optimization using optim
+  result <- optim(beta_init, neg_log_likelihood, method = "BFGS")
+  
+  return(result$par)  # Optimized coefficients
+}
+```
+
+# Create functions for confusion matrix and metrics
+```{r}
+#' Confusion Matrix and Metrics
+#'
+#' @param X A matrix of predictors
+#' @param y A binary response vector
+#' @param beta Coefficients vector
+#' @return Confusion matrix and metrics
+#' @export
+evaluate_model <- function(X, y, beta) {
+  # Compute probabilities
+  p <- 1 / (1 + exp(-X %*% beta))
+  
+  # Predicted classes
+  y_pred <- ifelse(p > 0.5, 1, 0)
+  
+  # Confusion matrix
+  TP <- sum(y_pred == 1 & y == 1)
+  TN <- sum(y_pred == 0 & y == 0)
+  FP <- sum(y_pred == 1 & y == 0)
+  FN <- sum(y_pred == 0 & y == 1)
+  
+  # Metrics
+  prevalence <- mean(y)
+  accuracy <- (TP + TN) / length(y)
+  sensitivity <- TP / (TP + FN)
+  specificity <- TN / (TN + FP)
+  FDR <- FP / (FP + TP)
+  DOR <- (sensitivity / (1 - sensitivity)) / (specificity / (1 - specificity))
+  
+  return(list(
+    confusion_matrix = matrix(c(TP, FN, FP, TN), 2, 2, byrow = TRUE,
+                              dimnames = list(c("Predicted 1", "Predicted 0"),
+                                              c("Actual 1", "Actual 0"))),
+    prevalence = prevalence,
+    accuracy = accuracy,
+    sensitivity = sensitivity,
+    specificity = specificity,
+    FDR = FDR,
+    DOR = DOR
+  ))
+}
+
+```
+
+## Add Documentation:
+
+# Use roxygen2 to add comments for all functions
+```{r}
+devtools::document()
+```
+
+## Vignette:
+
+# Set up vignette and write an example in the vignette
+```{r}
+usethis::use_vignette("classification-package")
+
+# Example Usage
+library(your_package_name)
+
+# Load data
+data <- read.csv("expenses.csv")
+X <- as.matrix(data[,-1])
+y <- data[,1]
+
+# Fit model
+beta <- logistic_regression(X, y)
+
+# Bootstrap confidence intervals
+ci <- bootstrap_ci(X, y)
+
+# Model evaluation
+metrics <- evaluate_model(X, y, beta)
+print(metrics)
+
+```
+
+## Testing:
+
+# Set up tests and test cases
+```{r}
+usethis::use_testthat()
+test_that("logistic_regression works", {
+  beta <- logistic_regression(X, y)
+  expect_length(beta, ncol(X))
+})
+```
+
+## Publish Package:
+
+# Push to GitHub
+```{r}
+system("git add .")
+system('git commit -m "Initial commit"')
+system("git push")
+```
+
+# Test installation
+```{r}
+devtools::install_github("AU-R-Programming/your_package_name")
+```
+
+## Add optional Bonus Features:
+
+# Add a Shiny App for interactive usage and build a pkgdown website
+```{r}
+usethis::use_pkgdown()
+pkgdown::build_site()
+```
+
