@@ -104,10 +104,11 @@ logistic_regression <- function(X, y, B=20, alpha=0.05) {
   
 
 vsmodel<-logistic_regression(X1, mtcars$vs, B=1000, alpha=0.05)
+ammodel<-logistic_regression(X1, mtcars$am, B=1000, alpha=0.05)
   
 predict_lr <- function(model, new_data) {
   # Add intercept to new data
-  new_design <- cbind(1, new_data)
+  new_design <- as.matrix(cbind(1, new_data))
   
   # Calculate predicted probabilities
   p_hat <- 1 / (1 + exp(-new_design %*% model$beta_optimized))
@@ -127,6 +128,5 @@ data(mtcars)
 glm_fit <- glm(am ~ mpg + hp + wt, family = binomial, data = mtcars)
 logistic_regression(X1, mtcars$vs, B=1000, alpha=0.05)
 glm_fit$coefficients
-
 
 
