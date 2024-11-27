@@ -11,7 +11,7 @@ ui <- fluidPage(
       selectizeInput("predictors", "Select Predictor Variables:", choices = NULL, multiple = TRUE),
       numericInput("bootstrap", "Number of Bootstrap Iterations (B):", value = 1000, min = 100),
       numericInput("alpha", "Significance Level (Alpha):", value = 0.05, min = 0.01, max = 0.1, step = 0.01),
-      actionButton("run", "Run Logistic Regression"),
+      actionButton("run", "Run Binary Classification"),
       downloadButton("downloadResults", "Download Results")
     ),
     
