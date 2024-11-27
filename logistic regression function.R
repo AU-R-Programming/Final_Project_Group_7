@@ -37,7 +37,7 @@ logistic_regression <- function(X, y, B=20, alpha=0.05) {
     #Calculating coefficients with optimization 
     boot_lm<- optim(beta_init2, neg_log_likelihood)
     #Calculating coefficients with glm
-    boot_lm2<-glm(bdata[,1]~bdata[,3:ncol(bdata)], family=binomial)
+    boot_lm2<-suppressWarnings(glm(bdata[,1]~bdata[,3:ncol(bdata)], family=binomial))
     #Storing bootstrap coefficients
     B_hat[i,]<-boot_lm$par
     #Storing glm coefficients
@@ -103,12 +103,26 @@ logistic_regression <- function(X, y, B=20, alpha=0.05) {
 
   
 
-logistic_regression(X1, mtcars$vs, B=1000, alpha=0.05)
+vsmodel<-logistic_regression(X1, mtcars$vs, B=1000, alpha=0.05)
   
+predict_lr <- function(model, new_data) {
+  # Add intercept to new data
+  new_design <- cbind(1, new_data)
+  
+  # Calculate predicted probabilities
+  p_hat <- 1 / (1 + exp(-new_design %*% model$beta_optimized))
+  
+  # Set threshold for classification (e.g., 0.5)
+  y_pred <- ifelse(p_hat >= 0.5, 1, 0)
+  
+  return(list(predicted_probabilities = p_hat, predicted_class = y_pred))
+}
 
+newdata<-matrix(c(22.8, 93, 2.32), ncol=3, nrow=1)
+predict_lr(vsmodel, newdata)
+head(mtcars)
 data(mtcars)
-X1<-as.matrix(cbind(mtcars$mpg, mtcars$hp, mtcars$wt))
-y1<-mtcars$am
+
 
 glm_fit <- glm(am ~ mpg + hp + wt, family = binomial, data = mtcars)
 logistic_regression(X1, mtcars$vs, B=1000, alpha=0.05)
