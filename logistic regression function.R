@@ -1,9 +1,25 @@
 ###############################################################
 #Function to calculate true parameters
-logistic_regression <- function(formula = NULL, data = NULL, X = NULL, y = NULL, B = 20, alpha = 0.05) {
+lr <- function(formula = NULL, data = NULL, X = NULL, y = NULL, B = 20, alpha = 0.05) {
+  
+  # Store factor level mapping information
+  factor_mappings <- list()
   
   # Determine if the user provided a formula or X and y directly
   if (!is.null(formula) && !is.null(data)) {
+    # Convert character or factor covariates to dummy variables in data
+    for (col_name in names(data)) {
+      col <- data[[col_name]]
+      if (is.character(col) || is.factor(col)) {
+        levels_info <- levels(as.factor(col))
+        factor_mappings[[col_name]] <- data.frame(
+          Level = levels_info,
+          Numeric = as.numeric(as.factor(levels_info)) - 1
+        )
+        data[[col_name]] <- as.numeric(as.factor(col)) - 1
+      }
+    }
+    
     # Parse formula to extract response and predictor variables
     mf <- model.frame(formula, data)
     y <- model.response(mf)
@@ -17,17 +33,21 @@ logistic_regression <- function(formula = NULL, data = NULL, X = NULL, y = NULL,
       X <- as.data.frame(X)
     }
     
-    # Convert character or factor covariates to numeric
-    X[] <- lapply(X, function(col) {
+    # Convert character or factor covariates to dummy variables
+    for (col_name in names(X)) {
+      col <- X[[col_name]]
       if (is.character(col) || is.factor(col)) {
-        return(as.numeric(as.factor(col)))
-      } else {
-        return(col)
+        levels_info <- levels(as.factor(col))
+        factor_mappings[[col_name]] <- data.frame(
+          Level = levels_info,
+          Numeric = as.numeric(as.factor(levels_info)) - 1
+        )
+        X[[col_name]] <- as.numeric(as.factor(col)) - 1
       }
-    })
+    }
     
-    # Convert X back to matrix
-    X <- as.matrix(X)
+    # Convert character or factor covariates to dummy variables
+    X <- model.matrix(~ . - 1, data = X)
   } else {
     stop("Please provide either a formula and data, or X and y.")
   }
@@ -40,6 +60,18 @@ logistic_regression <- function(formula = NULL, data = NULL, X = NULL, y = NULL,
     }
     # Convert character or factor levels to 0 and 1
     y <- as.numeric(y == unique_levels[2])
+  } else {
+    # Convert numeric dependent variable to 0 and 1 if it has more than two unique values
+    unique_levels <- unique(y)
+    if (length(unique_levels) != 2) {
+      stop("The dependent variable must have exactly two levels to be used in logistic regression.")
+    }
+    y <- as.numeric(y == max(unique_levels))
+  }
+  
+  # Ensure y values are binary (0 or 1)
+  if (any(y < 0 | y > 1)) {
+    stop("The dependent variable must have values between 0 and 1.")
   }
   
   # Create design matrix with intercept
@@ -100,13 +132,6 @@ logistic_regression <- function(formula = NULL, data = NULL, X = NULL, y = NULL,
     CI[i, ] <- quantile(B_hat[, i], c(alpha / 2, 1 - alpha / 2))
   }
   
-  # Create confidence interval (based on glm, just for comparison)
-  CI2 <- matrix(NA, nrow = ncol(B_hat2), ncol = 2)
-  
-  # Loop to calculate CI for
-  for (i in 1:ncol(B_hat2)) {
-    CI2[i, ] <- quantile(B_hat2[, i], c(alpha / 2, 1 - alpha / 2))
-  }
   
   # Predict probabilities based on optimized beta coefficients
   p_hat <- 1 / (1 + exp(-design %*% result$par))
@@ -138,62 +163,15 @@ logistic_regression <- function(formula = NULL, data = NULL, X = NULL, y = NULL,
   return(list(beta_init = beta_init, 
               beta_optimized = result$par, 
               CI = CI, 
-              CI2 = CI2, 
               confusion_matrix = confusion_matrix, 
               prevalence = prevalence, 
               accuracy = accuracy, 
               sensitivity = sensitivity, 
               specificity = specificity, 
               false_discovery_rate = false_discovery_rate, 
-              diagnostic_odds_ratio = diagnostic_odds_ratio))
+              diagnostic_odds_ratio = diagnostic_odds_ratio,
+              factor_mappings = factor_mappings))
 }
 
-
-  
-
-vsmodel<-logistic_regression(X=X1, y=mtcars$vs, B=1000, alpha=0.05)
-vsmodel$confusion_matrix
-ammodel<-logistic_regression(X=X1, y=mtcars$am, B=1000, alpha=0.05)
-ammodel$confusion_matrix
-
-  
-predict_lr <- function(model, new_data) {
-  # Add intercept to new data
-  new_design <- as.matrix(cbind(1, new_data))
-  
-  # Calculate predicted probabilities
-  p_hat <- 1 / (1 + exp(-new_design %*% model$beta_optimized))
-  
-  # Set threshold for classification (e.g., 0.5)
-  y_pred <- ifelse(p_hat >= 0.5, 1, 0)
-  
-  return(list(predicted_probabilities = p_hat, predicted_class = y_pred))
-}
-
-newdata<-matrix(c(22.8, 93, 2.32), ncol=3, nrow=1)
-newdata<-matrix(c( 32, 1, 0))
-predict_lr(lrm1, newdata)
-predict_lr(vsmodel, newdata)
-head(mtcars)
-data(mtcars)
-
-
-glm_fit <- glm(am ~ mpg + hp + wt, family = binomial, data = mtcars)
-logistic_regression(X1, mtcars$vs, B=1000, alpha=0.05)
-glm_fit$coefficients
-covid<-covid[complete.cases(covid),]
-risk_model<-glm(Outcome~Age+Hospitalization.type+Symptoms+Positive, data=covid, family=binomial)
-summary(risk_model)
-ys1<-as.matrix(as.numeric(covid$Outcome)-1)
-Xs1<-as.matrix(cbind(covid$Age, as.factor(covid$Hospitalization.type), as.factor(covid$Positive)))
-lrm1<-logistic_regression(X=Xs1, y=ys1, B=100, alpha=0.05)
-lrm2<-logistic_regression(Outcome~Age+Hospitalization.type+Positive, data=covid, B=100, alpha=0.05)
-lrm1$beta_optimized
-lrm1$confusion_matrix
-lrm2$confusion_matrix
-table(covid_nona$Outcome, pred_death)
-sum(ys1)
-
-length(ys1)
 
 
