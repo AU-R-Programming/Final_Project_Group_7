@@ -148,8 +148,8 @@ lr <- function(formula = NULL, data = NULL, X = NULL, y = NULL, B = 20, alpha = 
   confusion_matrix <- matrix(c(false_positive, true_positive, true_negative, false_negative), 
                              nrow = 2, 
                              dimnames = list(
-                               "Actual" = c("Negative", "Positive"),
-                               "Predicted" = c("Positive", "Negative")
+                               "Actual" = c("FALSE", "TRUE"),
+                               "Predicted" = c("TRUE", "FALSE")
                              ))
   
   # Calculate accuracy, sensitivity, specificity, false discovery rate, and diagnostic odds ratio
