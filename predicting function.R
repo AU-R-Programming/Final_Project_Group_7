@@ -1,4 +1,4 @@
-predict_outcome <- function(new_data, model, dependent_variable_col) {
+predict_test <- function(new_data, model, dependent_variable_col) {
   # Extract beta_optimized and factor_mappings from the model
   beta_optimized <- model$beta_optimized
   factor_mappings <- model$factor_mappings
