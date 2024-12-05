@@ -1,5 +1,5 @@
 # Define the function
-create_stratified_sample <- function(data, dependent_var, train_prop = 0.75, return_data = FALSE, seed = NULL) {
+train_test_sampling <- function(data, dependent_var, train_prop = 0.75, return_data = FALSE, seed = NULL) {
   # Ensure the data is a dataframe
   data <- as.data.frame(data)
   

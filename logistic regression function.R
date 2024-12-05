@@ -174,4 +174,3 @@ lr <- function(formula = NULL, data = NULL, X = NULL, y = NULL, B = 20, alpha = 
 }
 
 
-
