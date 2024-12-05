@@ -7,7 +7,7 @@ lr <- function(formula = NULL, data = NULL, X = NULL, y = NULL, B = 20, alpha = 
   
   # Determine if the user provided a formula or X and y directly
   if (!is.null(formula) && !is.null(data)) {
-    # Convert character or factor covariates to dummy variables in data
+    #Store factors
     for (col_name in names(data)) {
       col <- data[[col_name]]
       if (is.character(col) || is.factor(col)) {
