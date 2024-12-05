@@ -174,3 +174,45 @@ lr <- function(formula = NULL, data = NULL, X = NULL, y = NULL, B = 20, alpha = 
 }
 
 
+#' Logistic Regression with Numerical Optimization and Bootstrapping
+#'
+#' This function performs logistic regression using numerical optimization. It supports both formula-based 
+#' and matrix-based inputs for data. The function also computes bootstrap confidence intervals, 
+#' confusion matrix, and various classification metrics.
+#'
+#' @param formula A formula specifying the model structure (e.g., `y ~ x1 + x2`). Required if `data` is provided.
+#' @param data A data frame containing the variables in the formula. Used only when `formula` is provided.
+#' @param X A matrix or data frame of predictors. Used when `formula` is not provided.
+#' @param y A vector of binary response variables (0/1 or factor with two levels). Used when `formula` is not provided.
+#' @param B The number of bootstrap samples for computing confidence intervals. Default is 20.
+#' @param alpha Significance level for confidence intervals. Default is 0.05 (95% confidence intervals).
+#'
+#' @return A list containing:
+#' \item{beta_init}{Initial coefficient estimates from least squares.}
+#' \item{beta_optimized}{Optimized coefficient estimates from numerical optimization.}
+#' \item{CI}{Bootstrap confidence intervals for the coefficients.}
+#' \item{confusion_matrix}{Confusion matrix showing predicted vs. actual classifications.}
+#' \item{prevalence}{Proportion of positive cases in the response variable.}
+#' \item{accuracy}{Proportion of correctly classified instances.}
+#' \item{sensitivity}{Proportion of true positives correctly identified.}
+#' \item{specificity}{Proportion of true negatives correctly identified.}
+#' \item{false_discovery_rate}{Proportion of false positives among all predicted positives.}
+#' \item{diagnostic_odds_ratio}{Diagnostic odds ratio for the classifier.}
+#' \item{factor_mappings}{Mappings of factor levels to numeric values used in the model.}
+#'
+#' @examples
+#' # Example 1: Using formula and data
+#' data(iris)
+#' iris_binary <- iris[iris$Species %in% c("setosa", "versicolor"), ]
+#' iris_binary$Species <- factor(iris_binary$Species)
+#' result <- lr(Species ~ Sepal.Length + Sepal.Width, data = iris_binary)
+#' print(result$confusion_matrix)
+#'
+#' # Example 2: Using X and y directly
+#' X <- iris_binary[, c("Sepal.Length", "Sepal.Width")]
+#' y <- as.numeric(iris_binary$Species) - 1
+#' result <- lr(X = X, y = y, B = 50, alpha = 0.01)
+#' print(result$CI)
+#'
+#' @export
+
