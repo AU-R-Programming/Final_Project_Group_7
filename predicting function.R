@@ -60,3 +60,34 @@ predict_outcome <- function(new_data, model, dependent_variable_col) {
   
   return(result)
 }
+
+
+#' Predict Outcomes for New Data Using a Logistic Regression Model
+#'
+#' This function predicts binary outcomes (0 or 1) and probabilities for new data based on a logistic regression model. 
+#' It also compares predictions to actual outcomes, computes a confusion matrix, and handles factor-to-numeric conversions.
+#'
+#' @param new_data A data frame containing new data for prediction. Must include all predictors used in the model.
+#' @param model A list returned by the `lr` function, containing `beta_optimized` (coefficients) and `factor_mappings`.
+#' @param dependent_variable_col The name or column index of the dependent variable in `new_data` for comparison. 
+#'
+#' @return A data frame with the following columns:
+#' \item{predicted_outcomes}{Predicted class labels ("TRUE" or "FALSE") based on a threshold of 0.5.}
+#' \item{binary_outcomes}{Binary predictions (0 or 1) corresponding to the predicted outcomes.}
+#' Additionally, the function prints a confusion matrix comparing predictions to the actual dependent variable.
+#'
+#' @examples
+#' # Example: Predicting outcomes on a binary subset of the Iris dataset
+#' data(iris)
+#' iris_binary <- iris[iris$Species %in% c("setosa", "versicolor"), ]
+#' iris_binary$Species <- factor(iris_binary$Species)
+#'
+#' # Fit a logistic regression model
+#' model <- lr(Species ~ Sepal.Length + Sepal.Width, data = iris_binary)
+#'
+#' # Predict outcomes on new data
+#' predictions <- predict_outcome(new_data = iris_binary, model = model, dependent_variable_col = "Species")
+#' head(predictions)
+#'
+#' @export
+
