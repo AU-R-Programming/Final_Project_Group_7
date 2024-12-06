@@ -7,7 +7,7 @@ template:
     bootswatch: flatly
 navbar:
   left:
-  - text: vignette
+  - text: Vignette
     href: articles/Vignette.html
   - text: Reference
     href: reference/index.html
