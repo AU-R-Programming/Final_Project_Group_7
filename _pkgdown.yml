@@ -8,7 +8,7 @@ template:
 navbar:
   left:
   - text: Vignette
-    href: articles/vignette.html
+    href: articles/Vignette.html
   - text: Reference
     href: reference/index.html
   right:
