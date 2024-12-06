@@ -6,20 +6,21 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
 ## Introduction
 
 The purpose of this package is to simplify the process of sampling data, training logistic regression models, and making binary classification in R. In this vignette, you will find an introduction to the main functions of the `TrainPredict` package:
 
-- `train_test_sampling`: Split your dataset into training and test sets.
-- `lr`: Train a logistic regression model.
-- `predict_test`: Make predictions on the test dataset.
-- `predict_new`: Make predictions on new data using a model trained with function `lr`.
+-   `train_test_sampling`: Split your dataset into training and test sets.
+-   `lr`: Train a logistic regression model.
+-   `predict_test`: Make predictions on the test dataset.
+-   `predict_new`: Make predictions on new data using a model trained with function `lr`.
 
 ## Installation
 
 To install this package you have to use the function `install_github`, the organization name is `AU-R-Programming` and the repository is `Final_Project_Group_7`
 
-```r
+``` r
 devtools::install_github("AU-R-Programming/Final_Project_Group_7")
 ```
 
@@ -47,7 +48,15 @@ head(iris_binary)
 
 ## Using `train_test_sampling`
 
-The `train_test_sampling` function helps you split your data into training and test sets. Here, we use an 80-20 split.
+The `train_test_sampling` function is designed to split your data into training and test sets, following a 75-25 split by default. One of its key features is its ability to ensure equal proportions of binary classes (0s and 1s) in both the `training` and `test` data sets, which helps maintain class balance for binary classification tasks.
+
+Additionally, the function includes the return_data argument to give users flexibility in the output:
+
+-   When `return_data` = `FALSE`, the function returns only the indices of the training data set.
+
+-   When `return_data` = `TRUE`, the function returns a list containing two elements: the `training` data set and the `test` data set, both with balanced class proportions.
+
+For this example, we will use a 80-20 split.
 
 ```{r}
 
@@ -62,6 +71,11 @@ test_data <- split_data$test
 # Checking the split.
 str(train_data)
 str(test_data)
+
+# Checking the dimensions
+dim(iris_binary)
+dim(train_data)
+dim(test_data)
 ```
 
 ## Using `lr` to Train a Logistic Regression Model
@@ -86,20 +100,18 @@ $$
 \beta_0 = (X^T X)^{-1} X^T y
 $$
 
-
-
 The `lr` function uses numerical optimization (`optim` in R) to estimate the coefficients that minimize the negative log-likelihood. The initial values for optimization are calculated using the least-squares method, which provides a good starting point for the optimization algorithm. The optimization process iteratively adjusts the coefficients to find the minimum value of the negative log-likelihood.
 
 To assess the uncertainty of the estimated coefficients, we can compute bootstrap confidence intervals. The user can specify the significance level $\alpha$ and the number of bootstrap samples (default is 20).
 
 We use a cut-off value of 0.5 to classify the predictions. Based on this threshold, we generate a confusion matrix and calculate various performance metrics, including:
 
-- **Prevalence**: The proportion of positive cases.
-- **Accuracy**: The proportion of correctly classified cases.
-- **Sensitivity**: The true positive rate.
-- **Specificity**: The true negative rate.
-- **False Discovery Rate**: The proportion of false positives among the predicted positives.
-- **Diagnostic Odds Ratio**: The ratio of the odds of a positive test result in a diseased individual to the odds of a positive test result in a non-diseased individual.
+-   **Prevalence**: The proportion of positive cases.
+-   **Accuracy**: The proportion of correctly classified cases.
+-   **Sensitivity**: The true positive rate.
+-   **Specificity**: The true negative rate.
+-   **False Discovery Rate**: The proportion of false positives among the predicted positives.
+-   **Diagnostic Odds Ratio**: The ratio of the odds of a positive test result in a diseased individual to the odds of a positive test result in a non-diseased individual.
 
 We use `Sepal.Length` and `Sepal.Width` as predictors to train the model.
 
@@ -161,19 +173,18 @@ new_predictions
 
 In this vignette, we demonstrated how to use the `TrainPredict` package to:
 
-1. Split a dataset into training and test sets using `train_test_sampling`.
-2. Train a logistic regression model using `lr`.
-3. Make predictions on test data using `predict_test`.
-4. Generate binary classifications for new data using `predict_new`.
+1.  Split a dataset into training and test sets using `train_test_sampling`.
+2.  Train a logistic regression model using `lr`.
+3.  Make predictions on test data using `predict_test`.
+4.  Generate binary classifications for new data using `predict_new`.
 
 These functions make it easy to perform end-to-end logistic regression modeling, from data preparation to model deployment.
 
 ## Resources
-This package was developed with the aid of Large Language Models, including ChatGPT, which provided support in brainstorming, problem-solving, and enhancing documentation quality. The final outputs are the result of careful review and adaptation to the specific goals of this project.
 
+This package was developed with the aid of Large Language Models, including ChatGPT, which provided support in brainstorming, problem-solving, and enhancing documentation quality. The final outputs are the result of careful review and adaptation to the specific goals of this project.
 
 ## References
 
-- OpenAI. Predict Outcome Function - ChatGPT Output. Available at: <https://chatgpt.com/share/675212cd-f6bc-800d-9c79-9dc9a6946ef9>. Accessed: 2024-12-05.
-- OpenAI. Logistic Regression with Bootstrapping - ChatGPT Output. Available at: <https://chatgpt.com/share/675212cd-f6bc-800d-9c79-9dc9a6946ef9>. Accessed: 2024-12-01.
-
+-   OpenAI. Predict Outcome Function - ChatGPT Output. Available at: <https://chatgpt.com/share/675212cd-f6bc-800d-9c79-9dc9a6946ef9>. Accessed: 2024-12-05.
+-   OpenAI. Logistic Regression with Bootstrapping - ChatGPT Output. Available at: <https://chatgpt.com/share/675212cd-f6bc-800d-9c79-9dc9a6946ef9>. Accessed: 2024-12-01.
