@@ -89,7 +89,7 @@ dim(test_data)
 
     ## [1]  8 11
 
-### 3. Train a Logistic Regression Model
+### 2. Train a Logistic Regression Model
 
 We use the `lr()` function to train a logistic regression model using
 selected predictors.
@@ -118,7 +118,7 @@ print(model$confusion_matrix)
     ##   FALSE    1    13
     ##   TRUE     9     1
 
-### 4. Make Predictions on Test Data
+### 3. Make Predictions on Test Data
 
 Evaluate the model’s performance on the test dataset using the
 `predict_test()` function.
@@ -149,7 +149,7 @@ test_predictions <- predict_test(model = model, new_data = test_data, dependent_
     ## Porsche 914-2                     1                  1
     ## Lotus Europa                      1                  1
 
-### 5. Make Predictions on New Data
+### 4. Make Predictions on New Data
 
 Use the `predict_new()` function to make predictions for new data
 points.
