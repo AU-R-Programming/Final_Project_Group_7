@@ -234,28 +234,23 @@ and the number of bootstrap samples (default is 20).</p>
 this threshold, we generate a confusion matrix and calculate various
 performance metrics, including:</p>
 <ul>
-<li>
-<strong>Prevalence</strong>: The proportion of positive cases.</li>
-<li>
-<strong>Accuracy</strong>: The proportion of correctly classified
-cases.</li>
-<li>
-<strong>Sensitivity</strong>: The true positive rate.</li>
-<li>
-<strong>Specificity</strong>: The true negative rate.</li>
-<li>
-<strong>False Discovery Rate</strong>: The proportion of false
-positives among the predicted positives.</li>
-<li>
-<strong>Diagnostic Odds Ratio</strong>: The ratio of the odds of a
-positive test result in a diseased individual to the odds of a positive
-test result in a non-diseased individual.</li>
+<li><p><strong>Prevalence</strong>: The proportion of positive
+cases.</p></li>
+<li><p><strong>Accuracy</strong>: The proportion of correctly classified
+cases.</p></li>
+<li><p><strong>Sensitivity</strong>: The true positive rate.</p></li>
+<li><p><strong>Specificity</strong>: The true negative rate.</p></li>
+<li><p><strong>False Discovery Rate</strong>: The proportion of false
+positives among the predicted positives.</p></li>
+<li><p><strong>Diagnostic Odds Ratio</strong>: The ratio of the odds of
+a positive result occurring in a true positive case to the odds of a
+positive result occurring in a false positive case.</p></li>
+<li><p>We use <code>Sepal.Length</code> and <code>Sepal.Width</code> as
+predictors to train the model.</p></li>
 </ul>
-<p>We use <code>Sepal.Length</code> and <code>Sepal.Width</code> as
-predictors to train the model.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Train logistic regression model</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lr.html">lr</a></span><span class="op">(</span><span class="va">Virginica</span> <span class="op">~</span> <span class="va">Sepal.Length</span> <span class="op">+</span> <span class="va">Sepal.Width</span>, data <span class="op">=</span> <span class="va">train_data</span><span class="op">)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lr.html">lr</a></span><span class="op">(</span><span class="va">Virginica</span> <span class="op">~</span> <span class="va">Sepal.Length</span> <span class="op">+</span> <span class="va">Sepal.Width</span>, data <span class="op">=</span> <span class="va">train_data</span>, B<span class="op">=</span><span class="fl">20</span>, alpha<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># The model will provide important information like the coefficients of the logistic regression, </span></span>
 <span><span class="co"># bootstrap confidence intervals, confusion matrix, prevalence, accuracy, sensitivity, specificity, etc.</span></span>

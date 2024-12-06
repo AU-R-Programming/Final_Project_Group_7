@@ -107,17 +107,22 @@ To assess the uncertainty of the estimated coefficients, we can compute bootstra
 We use a cut-off value of 0.5 to classify the predictions. Based on this threshold, we generate a confusion matrix and calculate various performance metrics, including:
 
 -   **Prevalence**: The proportion of positive cases.
--   **Accuracy**: The proportion of correctly classified cases.
--   **Sensitivity**: The true positive rate.
--   **Specificity**: The true negative rate.
--   **False Discovery Rate**: The proportion of false positives among the predicted positives.
--   **Diagnostic Odds Ratio**: The ratio of the odds of a positive test result in a diseased individual to the odds of a positive test result in a non-diseased individual.
 
-We use `Sepal.Length` and `Sepal.Width` as predictors to train the model.
+-   **Accuracy**: The proportion of correctly classified cases.
+
+-   **Sensitivity**: The true positive rate.
+
+-   **Specificity**: The true negative rate.
+
+-   **False Discovery Rate**: The proportion of false positives among the predicted positives.
+
+-   **Diagnostic Odds Ratio**: The ratio of the odds of a positive result occurring in a true positive case to the odds of a positive result occurring in a false positive case.
+
+-   We use `Sepal.Length` and `Sepal.Width` as predictors to train the model.
 
 ```{r}
 # Train logistic regression model
-model <- lr(Virginica ~ Sepal.Length + Sepal.Width, data = train_data)
+model <- lr(Virginica ~ Sepal.Length + Sepal.Width, data = train_data, B=20, alpha=0.05)
 
 # The model will provide important information like the coefficients of the logistic regression, 
 # bootstrap confidence intervals, confusion matrix, prevalence, accuracy, sensitivity, specificity, etc.
