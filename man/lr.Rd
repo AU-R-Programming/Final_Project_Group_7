@@ -51,7 +51,7 @@ the predictions.
 }
 \note{
 The response variable (\code{y}) must have exactly two levels for logistic regression to be applicable.
-All categorical variables are internally converted to numeric dummy variables.
+All categorical variables are internally converted to numeric variables.
 }
 \examples{
 # Example 1: using the mtcars dataset with 'am' as the binomial dependent variable.
@@ -81,5 +81,5 @@ print(result$beta_optimized)
 
 }
 \seealso{
-\code{\link[stats]{glm}}, \code{\link[base]{optim}}, \code{\link[boot]{boot}}
+\code{\link[TrainPredict]{predict_new}}, \code{\link[TrainPredict]{predict_test}}, \code{\link[TrainPredict]{train_test_sampling}}
 }

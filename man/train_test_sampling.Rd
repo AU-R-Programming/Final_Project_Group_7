@@ -69,5 +69,5 @@ head(split_data$test)
 
 }
 \seealso{
-\code{\link{sample}}, \code{\link{set.seed}}
+\code{\link[TrainPredict]{lr}}, \code{\link[TrainPredict]{predict_test}}
 }

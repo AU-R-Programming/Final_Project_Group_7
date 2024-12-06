@@ -95,8 +95,7 @@ We use the `lr()` function to train a logistic regression model using
 selected predictors.
 
 ``` r
-# Train a logistic regression model using Sepal.Length and Sepal.Width as predictors.
-# Variables `hp`, `mpg`, and `wt` will be used as the independent variables to predict `am`.
+# Train a logistic regression model using 'hp', 'mpg', and 'wt' as predictors of the 'am' binary variable.
 model <- lr(am ~ hp + mpg + wt, data = train_data, B=100, alpha=0.05)
 
 # Display model coefficients.
@@ -196,7 +195,3 @@ GitHub repository:
 
 [TrainPredict on
 GitHub](https://github.com/AU-R-Programming/Final_Project_Group_7)
-
-## License
-
-This package is licensed under the MIT License.

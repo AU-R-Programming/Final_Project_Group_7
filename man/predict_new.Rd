@@ -68,3 +68,6 @@ predictions <- predict_new(data = new_data, model = model, threshold=0.5)
 head(predictions)
 
 }
+\seealso{
+\code{\link[TrainPredict]{lr}}, \code{\link[TrainPredict]{train_test_sample}}, \code{\link[TrainPredict]{predict_test}}
+}

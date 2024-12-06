@@ -84,6 +84,10 @@ outcomes as 0 or 1. The default value is 0.5.</p></dd>
     <p>A data frame containing the original data along with an additional column named <code>predicted</code>, which
   holds the predicted class labels (0 or 1).</p>
     </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><code><a href="lr.html">lr</a></code>, <code>train_test_sample</code>, <code><a href="predict_test.html">predict_test</a></code></p></div>
+    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
@@ -107,13 +111,13 @@ outcomes as 0 or 1. The default value is 0.5.</p></dd>
 <span class="r-in"><span><span class="co">#Now we use the function to predict the outcome</span></span></span>
 <span class="r-in"><span><span class="va">new_predictions</span><span class="op">&lt;-</span><span class="fu">predict_new</span><span class="op">(</span>data<span class="op">=</span><span class="va">new_data</span>, model<span class="op">=</span><span class="va">model</span>, threshold<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">new_predictions</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      hp  mpg  wt predicted</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  54.7 31.1 1.8         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 219.0 10.5 4.8         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.8 19.6 2.6         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 147.3 21.7 2.8         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  72.8 20.3 2.5         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 310.5 30.1 1.7         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      hp  wt  mpg predicted</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  54.7 1.8 31.1         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 219.0 4.8 10.5         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.8 2.6 19.6         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 147.3 2.8 21.7         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  72.8 2.5 20.3         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 310.5 1.7 30.1         1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 2: Predicting outcomes on a binary subset of the Iris dataset</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></span>

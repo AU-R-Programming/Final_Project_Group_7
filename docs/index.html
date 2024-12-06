@@ -141,8 +141,7 @@
 </h3>
 <p>We use the <code><a href="reference/lr.html">lr()</a></code> function to train a logistic regression model using selected predictors.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Train a logistic regression model using Sepal.Length and Sepal.Width as predictors.</span></span>
-<span><span class="co"># Variables `hp`, `mpg`, and `wt` will be used as the independent variables to predict `am`.</span></span>
+<code class="sourceCode R"><span><span class="co"># Train a logistic regression model using 'hp', 'mpg', and 'wt' as predictors of the 'am' binary variable.</span></span>
 <span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lr.html">lr</a></span><span class="op">(</span><span class="va">am</span> <span class="op">~</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">mpg</span> <span class="op">+</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">train_data</span>, B<span class="op">=</span><span class="fl">100</span>, alpha<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Display model coefficients.</span></span>
@@ -229,11 +228,6 @@
 </h2>
 <p>If you’d like to contribute or report any issues, please visit the GitHub repository:</p>
 <p><a href="https://github.com/AU-R-Programming/Final_Project_Group_7" class="external-link">TrainPredict on GitHub</a></p>
-</div>
-<div class="section level2">
-<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
-</h2>
-<p>This package is licensed under the MIT License.</p>
 </div>
 </div>
   </div>

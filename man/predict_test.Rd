@@ -60,5 +60,5 @@ head(predictions)
 
 }
 \seealso{
-\code{\link{lr}}, \code{\link{train_test_sample}}
+\code{\link[TrainPredict]{lr}}, \code{\link[TrainPredict]{train_test_sample}}, \code{\link[TrainPredict]{predict_new}}
 }
