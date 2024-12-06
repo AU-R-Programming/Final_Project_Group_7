@@ -282,30 +282,59 @@ predict_new <- function(data, model, threshold = 0.5) {
   # Ensure the data is a dataframe
   data <- as.data.frame(data)
   
-  # Extract beta_optimized from the model
-  if (!is.list(model) || !"beta_optimized" %in% names(model)) {
-    stop("The model parameter must be a list containing the element 'beta_optimized'.")
+  # Validate the model structure
+  if (!is.list(model) || !"beta_optimized" %in% names(model) || !"factor_mappings" %in% names(model)) {
+    stop("The model parameter must be a list containing elements 'beta_optimized' and 'factor_mappings'.")
   }
   beta_optimized <- model$beta_optimized
+  factor_mappings <- model$factor_mappings
   
   # Validate beta_optimized
   if (!is.matrix(beta_optimized) || ncol(beta_optimized) != 1) {
-    stop("The beta_optimized parameter must be a column matrix.")
+    stop("The 'beta_optimized' parameter must be a column matrix.")
   }
   
   # Extract predictor names from beta_optimized, excluding the intercept
   predictor_names <- rownames(beta_optimized)[-1]  # Exclude the intercept
   
   # Check if all predictor names are present in the dataset
-  if (!all(predictor_names %in% names(data))) {
-    stop("The dataset must contain all the required predictors specified in the model.")
+  missing_predictors <- setdiff(predictor_names, names(data))
+  if (length(missing_predictors) > 0) {
+    stop(paste("The dataset is missing the following predictors:", 
+               paste(missing_predictors, collapse = ", ")))
   }
   
-  # Select only the necessary columns from the dataset
+  # Convert categorical columns to numeric using factor_mappings
+  for (factor_name in names(factor_mappings)) {
+    if (factor_name %in% names(data)) {
+      mapping <- factor_mappings[[factor_name]]
+      # Ensure the data column is a factor
+      if (!is.factor(data[[factor_name]])) {
+        data[[factor_name]] <- as.factor(data[[factor_name]])
+      }
+      # Convert factor levels to numeric based on mapping
+      levels(data[[factor_name]]) <- mapping$Numeric[match(levels(data[[factor_name]]), mapping$Level)]
+      data[[factor_name]] <- as.numeric(as.character(data[[factor_name]]))
+    }
+  }
+  
+  # Select and preprocess necessary predictors
   data <- data[, predictor_names, drop = FALSE]
+  
+  # Ensure all selected columns are numeric
+  non_numeric_cols <- names(data)[!sapply(data, is.numeric)]
+  if (length(non_numeric_cols) > 0) {
+    stop(paste("The following columns must be numeric:", 
+               paste(non_numeric_cols, collapse = ", ")))
+  }
   
   # Add intercept column to the data
   data_with_intercept <- cbind(Intercept = 1, data)
+  
+  # Ensure the intercept and data matrix are numeric
+  if (!is.numeric(as.matrix(data_with_intercept))) {
+    stop("The data with intercept must be a numeric matrix.")
+  }
   
   # Calculate the linear predictor
   linear_predictor <- as.matrix(data_with_intercept) %*% beta_optimized
@@ -320,5 +349,5 @@ predict_new <- function(data, model, threshold = 0.5) {
   data_with_predictions <- cbind(data, predicted = predictions)
   
   # Return the predictions and the updated dataset
-  return(data_with_predictions = data_with_predictions)
+  return(data_with_predictions)
 }
