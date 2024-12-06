@@ -168,6 +168,12 @@ In this vignette, we demonstrated how to use the `TrainPredict` package to:
 
 These functions make it easy to perform end-to-end logistic regression modeling, from data preparation to model deployment.
 
-## Next Steps
+## Resources
+This package was developed with the aid of Large Language Models, including ChatGPT, which provided support in brainstorming, problem-solving, and enhancing documentation quality. The final outputs are the result of careful review and adaptation to the specific goals of this project.
 
-Try using the `TrainPredict` package with your own dataset to explore its functionalities further.
+
+## References
+
+- OpenAI. Predict Outcome Function - ChatGPT Output. Available at: <https://chatgpt.com/share/675212cd-f6bc-800d-9c79-9dc9a6946ef9>. Accessed: 2024-12-05.
+- OpenAI. Logistic Regression with Bootstrapping - ChatGPT Output. Available at: <https://chatgpt.com/share/675212cd-f6bc-800d-9c79-9dc9a6946ef9>. Accessed: 2024-12-01.
+
