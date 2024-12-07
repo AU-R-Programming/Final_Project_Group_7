@@ -7,6 +7,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+Repository: [Final_Project_Group_7](https://github.com/AU-R-Programming/Final_Project_Group_7.git)
+
+Package Website: [TrainPredict Package](https://au-r-programming.github.io/Final_Project_Group_7/index.html)
+
+Shiny App Code: [Shiny App](https://github.com/AU-R-Programming/Final_Project_Group_7/blob/main/app/app.R) 
+
 ## Introduction
 
 The purpose of this package is to simplify the process of sampling data, training logistic regression models, and making binary classification in R. In this vignette, you will find an introduction to the main functions of the `TrainPredict` package:
@@ -20,7 +26,10 @@ The purpose of this package is to simplify the process of sampling data, trainin
 
 To install this package you have to use the function `install_github`, the organization name is `AU-R-Programming` and the repository is `Final_Project_Group_7`
 
-``` r
+```{r, eval=F}
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
 devtools::install_github("AU-R-Programming/Final_Project_Group_7")
 ```
 
@@ -191,7 +200,8 @@ This package was developed with the aid of Large Language Models, including Chat
 
 ## References
 
-- Beckman, M., Guerrier, S., Lee, J., Molinari, R., Orso, S., & Rudnytskyi, I. (2020). *An Introduction to Statistical Programming Methods with R*. Retrieved from [https://smac-group.github.io/ds/](https://smac-group.github.io/ds/)
+-   Beckman, M., Guerrier, S., Lee, J., Molinari, R., Orso, S., & Rudnytskyi, I. (2020). *An Introduction to Statistical Programming Methods with R*. Retrieved from <https://smac-group.github.io/ds/>
 
 -   OpenAI. *Predict Outcome Function - ChatGPT Output*. Available at: <https://chatgpt.com/share/675212cd-f6bc-800d-9c79-9dc9a6946ef9>. Accessed: 2024-12-05.
+
 -   OpenAI. *Logistic Regression with Bootstrapping - ChatGPT Output*. Available at: <https://chatgpt.com/share/675212cd-f6bc-800d-9c79-9dc9a6946ef9>. Accessed: 2024-12-01.
