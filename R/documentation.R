@@ -595,3 +595,4 @@ predict_new <- function(data, model, threshold = 0.5) {
   # Return the predictions and the updated dataset
   return(data_with_predictions)
 }
+

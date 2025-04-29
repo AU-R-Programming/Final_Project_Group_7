@@ -1,7 +1,6 @@
 library(shiny)
-library(TrainPredict)
 library(dplyr)
-
+library(TrainPredict)
 # UI
 ui <- fluidPage(
   titlePanel("TrainPredict Workflow: Train-Test Split, Logistic Regression, Predictions"),
